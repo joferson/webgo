@@ -1,1 +1,9 @@
 ---
+  vars:
+   sys_user: webgouser
+   path_sys: /webgosys
+   group_user: webgogroup
+  become: true
+  roles:
+   - role: docker-server 
+     
