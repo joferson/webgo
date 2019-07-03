@@ -1,4 +1,5 @@
 ---
+- hosts: DockerServer
   vars:
    sys_user: webgouser
    path_sys: /webgosys
