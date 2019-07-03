@@ -1,0 +1,34 @@
+---
+- name: DOCKER -instalação de pacotes e dependencias.
+  yum:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - yum-utils
+    - lvm2
+    - docker
+    - docker-compose
+  notify:
+    - enable docker
+
+- name: DOCKER -criar grupo docker.
+  group:
+    name: docker
+    state: present
+
+- name: DOCKER -configuração do docker.
+  template:
+    src: docker.j2
+    dest: /etc/sysconfig/docker
+    backup: yes
+  notify:
+    - restart docker 
+
+- name: DOCKER_COMPOSE -criar diretorio para docker compose.
+  file:
+    path: "{{path_sys}}/docker-compose"
+    owner: "{{sys_user}}"
+    group: "{{group_sys}}"
+    mode: 0775
+    state: directory
+  when: sys_user is defined
